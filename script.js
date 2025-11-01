@@ -1,7 +1,5 @@
-// Add loading class to body
 document.body.classList.add('loading');
 
-// Loading Screen
 const loadingScreens = [
     {
         text: "Praying the wifi works",
@@ -39,10 +37,8 @@ function nextLoadingScreen() {
                 loadingScreenEl.classList.add('fade-out');
                 setTimeout(() => {
                     loadingScreenEl.style.display = 'none';
-                    // Remove loading class and add loaded class
                     document.body.classList.remove('loading');
                     document.body.classList.add('loaded');
-                    // Initialize scroll animations
                     initScrollAnimations();
                 }, 500);
             }, 1000);
@@ -54,11 +50,9 @@ window.addEventListener('DOMContentLoaded', () => {
     nextLoadingScreen();
 });
 
-// Scroll Animation Observer
 function initScrollAnimations() {
     const sections = document.querySelectorAll('section');
     
-    // Add fade-in class to all sections
     sections.forEach(section => {
         section.classList.add('fade-in');
     });
@@ -73,8 +67,6 @@ function initScrollAnimations() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // Optional: stop observing after animation
-                // observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -84,7 +76,6 @@ function initScrollAnimations() {
     });
 }
 
-// Background scroll effect
 const backgrounds = [
     'pictures/blueprint-pfp.png',
     'pictures/normal-pfp.jpg',
