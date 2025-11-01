@@ -1,3 +1,50 @@
+const loadingScreens = [
+    {
+        text: "Praying the wifi works",
+        image: "pictures/fritzbox-nobg.png"
+    },
+    {
+        text: "sshing into some random server",
+        image: "pictures/hetzner-nobg.png"
+    },
+    {
+        text: "realizing my 3d printer makes weird moves",
+        image: "pictures/bambulab_nobg.png"
+    }
+];
+
+let currentScreen = 0;
+const loadingImage = document.getElementById('loading-image');
+const loadingText = document.getElementById('loading-text');
+const loadingScreenEl = document.getElementById('loading-screen');
+
+function showLoadingScreen(index) {
+    loadingImage.src = loadingScreens[index].image;
+    loadingText.textContent = loadingScreens[index].text;
+}
+
+function nextLoadingScreen() {
+    if (currentScreen < loadingScreens.length) {
+        showLoadingScreen(currentScreen);
+        currentScreen++;
+        
+        if (currentScreen < loadingScreens.length) {
+            setTimeout(nextLoadingScreen, 1000);
+        } else {
+            setTimeout(() => {
+                loadingScreenEl.classList.add('fade-out');
+                setTimeout(() => {
+                    loadingScreenEl.style.display = 'none';
+                }, 500);
+            }, 1000);
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    nextLoadingScreen();
+});
+
 const backgrounds = [
     'pictures/blueprint-pfp.png',
     'pictures/normal-pfp.jpg',
