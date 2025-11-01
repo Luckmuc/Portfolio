@@ -1,0 +1,223 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #0a0a0a;
+    color: #e0e0e0;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    transition: opacity 0.8s ease-in-out;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.header-section {
+    background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+    padding: 60px 20px;
+    text-align: center;
+    border-bottom: 3px solid #00ff88;
+    box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4);
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: #00ff88;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 8px rgba(0, 255, 136, 0.5);
+}
+
+header p {
+    font-size: 1.2em;
+    color: #b0b0b0;
+}
+
+.content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+section {
+    background: rgba(15, 20, 25, 0.85);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    margin-bottom: 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 255, 136, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 255, 136, 0.4), 0 0 30px rgba(34, 211, 238, 0.3);
+}
+
+section h2 {
+    color: #00ff88;
+    font-size: 2em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #00ff88;
+    padding-bottom: 10px;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+section p {
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    color: #d0d0d0;
+}
+
+.hobbies-and-games img {
+    max-width: 200px;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+}
+
+a {
+    color: #22d3ee;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #00ff88;
+    text-decoration: underline;
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+}
+
+section img {
+    max-width: 150px;
+    height: auto;
+    margin: 15px 10px;
+    border-radius: 10px;
+    border: 2px solid rgba(0, 255, 136, 0.4);
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+section img:hover {
+    transform: scale(1.1);
+    border-color: #00ff88;
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+}
+
+.information img {
+    max-width: 120px;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#hackatime-stats img {
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.hobbies-and-games img {
+    max-width: 200px;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+
+    header p {
+        font-size: 1em;
+    }
+
+    section {
+        padding: 25px;
+    }
+
+    section h2 {
+        font-size: 1.5em;
+    }
+
+    section img {
+        max-width: 100px;
+    }
+
+    .hobbies-and-games img {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    section {
+        padding: 20px;
+    }
+
+    section img {
+        max-width: 80px;
+        margin: 10px 5px;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+::selection {
+    background-color: #00ff88;
+    color: #000;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00ff88 0%, #22d3ee 100%);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00ff88 0%, #0ea5e9 100%);
+}
