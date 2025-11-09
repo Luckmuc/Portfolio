@@ -58,7 +58,7 @@
             <form id="guestbook-form" class="guestbook-form">
                 <input name="name" placeholder="Name" aria-label="Name" required maxlength="60">
                 <textarea name="message" placeholder="Message" aria-label="Message" required maxlength="300"></textarea>
-                <button type="submit" class="btn btn-primary guestbook-submit">Save note</button>
+                <button type="submit" class="btn btn-primary guestbook-submit">Add your entry :]</button>
             </form>
             <p class="guestbook-feedback" role="status" aria-live="polite"></p>
             <ul id="guestbook-entries" class="guestbook-list"></ul>
@@ -190,7 +190,7 @@
                     if (!response.ok) throw new Error(`POST ${API_URL} failed with ${response.status}`);
 
                     form.reset();
-                    setFeedback('Thanks! Your note was added.');
+                    setFeedback('Yourn very important guestbook entry has been saved! :)');
                     await renderEntries();
                 } catch (error) {
                     console.error('Failed to save guestbook entry', error);

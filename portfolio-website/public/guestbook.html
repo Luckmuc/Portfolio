@@ -21,7 +21,7 @@
         </nav>
         <section class="guestbook-page fade-in">
             <div class="guestbook-page__intro">
-                <p>Drop a quick message below, the entries are stored on my server!</p>
+                <p>Drop a message below, the entries are stored on my server! (I drew the background, ik I'm horrible at drawing)</p>
             </div>
             <form id="guestbook-form" class="guestbook-form">
                 <input name="name" placeholder="Name" aria-label="Name" required maxlength="60">
@@ -142,7 +142,7 @@
                     if (!response.ok) throw new Error(`POST ${API_URL} failed with ${response.status}`);
 
                     form.reset();
-                    setFeedback('Thanks for signing the guestbook!');
+                    setFeedback('your very important guestbook entry has been saved! :)');
                     await renderEntries();
                 } catch (error) {
                     console.error('Failed to save guestbook entry', error);
