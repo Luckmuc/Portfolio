@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luckmuc's Guestbook</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_guestbook.css">
+    <meta name="guestbook-api-base" content="">
+</head>
+<body class="guestbook-body">
+    <div class="header-section">
+        <header>
+            <h1>Luckmuc's Guestbook</h1>
+            <p>My Guestbook ig, look what other ppl wrote</p>
+        </header>
+    </div>
+    <div class="content-section">
+        <nav class="guestbook-page__nav fade-in">
+            <a class="btn btn-secondary" href="index.html">← Back to Portfolio</a>
+        </nav>
+        <section class="guestbook-page fade-in">
+            <div class="guestbook-page__intro">
+                <p>Drop a quick message below, the entries are stored on my server!</p>
+            </div>
+            <form id="guestbook-form" class="guestbook-form">
+                <input name="name" placeholder="Name" aria-label="Name" required maxlength="60">
+                <textarea name="message" placeholder="Message" aria-label="Message" required maxlength="500"></textarea>
+                <button type="submit" class="btn btn-primary guestbook-submit">Sign Guestbook</button>
+            </form>
+            <p class="guestbook-feedback" role="status" aria-live="polite"></p>
+            <p class="guestbook-page__note">If it doesnt work, please msg me on Slack</p>
+            <ul id="guestbook-entries" class="guestbook-list"></ul>
+        </section>
+    </div>
+    <footer>If your're <18 and like coding, join hackclub already!</footer>
+    <script>
+        window.__GUESTBOOK_API_BASE__ = window.__GUESTBOOK_API_BASE__ || (document.querySelector('meta[name="guestbook-api-base"]')?.content?.trim() || `${window.location.origin}/api`);
+    </script>
+    <script src="guestbook-config.js"></script>
+    <script>
+        (function() {
+            document.querySelectorAll('.fade-in').forEach((el) => el.classList.add('visible'));
+            const rawBase = window.__GUESTBOOK_API_BASE__ ?? '/api';
+            const API_BASE = rawBase.replace(/\/$/, '');
+            const API_URL = `${API_BASE}/guestbook`;
+            const form = document.getElementById('guestbook-form');
+            const entriesList = document.getElementById('guestbook-entries');
+            const feedback = document.querySelector('.guestbook-feedback');
+            const submitButton = form?.querySelector('button[type="submit"]');
+
+            if (!form || !entriesList || !feedback || !submitButton) {
+                return;
+            }
+
+            let feedbackTimerId;
+            const setFeedback = (text, isError = false) => {
+                feedback.textContent = text;
+                feedback.classList.toggle('guestbook-feedback--error', isError);
+                feedback.classList.add('visible');
+                clearTimeout(feedbackTimerId);
+                feedbackTimerId = setTimeout(() => {
+                    feedback.classList.remove('visible');
+                }, 4500);
+            };
+
+            const createEntryNode = (entry) => {
+                const li = document.createElement('li');
+                li.className = 'guestbook-entry';
+
+                const meta = document.createElement('div');
+                meta.className = 'guestbook-entry__meta';
+
+                const author = document.createElement('span');
+                author.className = 'guestbook-entry__author';
+                author.textContent = entry.name;
+
+                const timestamp = document.createElement('time');
+                timestamp.className = 'guestbook-entry__time';
+                timestamp.dateTime = entry.timestamp;
+                timestamp.textContent = new Date(entry.timestamp).toLocaleString();
+
+                meta.append(author, timestamp);
+
+                const message = document.createElement('p');
+                message.className = 'guestbook-entry__message';
+                message.textContent = entry.message;
+
+                li.append(meta, message);
+                return li;
+            };
+
+            const renderEntries = async () => {
+                entriesList.innerHTML = '';
+                try {
+                    const response = await fetch(API_URL);
+                    if (!response.ok) throw new Error(`GET ${API_URL} failed with ${response.status}`);
+                    const entries = await response.json();
+
+                    if (!entries.length) {
+                        const empty = document.createElement('li');
+                        empty.className = 'guestbook-empty';
+                        empty.textContent = 'No entries yet, be the first to say hi :D';
+                        entriesList.appendChild(empty);
+                        return;
+                    }
+
+                    entries.forEach((entry) => {
+                        entriesList.appendChild(createEntryNode(entry));
+                    });
+                } catch (error) {
+                    console.error('Failed to load guestbook entries', error);
+                    const errorItem = document.createElement('li');
+                    errorItem.className = 'guestbook-empty';
+                    errorItem.textContent = 'Could not load guestbook. Try again later.';
+                    entriesList.appendChild(errorItem);
+                }
+            };
+
+            renderEntries();
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const data = new FormData(form);
+                const name = (data.get('name') || '').toString().trim();
+                const message = (data.get('message') || '').toString().trim();
+
+                if (!name || !message) {
+                    setFeedback('Please fill out both fields.', true);
+                    return;
+                }
+
+                submitButton.disabled = true;
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, message })
+                    });
+
+                    if (!response.ok) throw new Error(`POST ${API_URL} failed with ${response.status}`);
+
+                    form.reset();
+                    setFeedback('Thanks for signing the guestbook!');
+                    await renderEntries();
+                } catch (error) {
+                    console.error('Failed to save guestbook entry', error);
+                    setFeedback('Failed to save your entry. Please try again.', true);
+                } finally {
+                    submitButton.disabled = false;
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luckmuc's Portfolio</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="icon" href="pictures/favicon.ico" />
+    <meta name="guestbook-api-base" content="">
+</head>
+<body>
+    <div id="loading-screen">
+        <div class="loading-content">
+            <img id="loading-image" src="" alt="Loading">
+            <p id="loading-text"></p>
+        </div>
+    </div>
+    <div class="header-section">
+        <header>
+            <h1>Hiya! I'm Luckmuc, a german Teenie with way to much free time :]</h1>
+            <p>This is a portfolio website of mine, made for <a href="https://page.hackclub.com" target="_blank">the Page YSWS</a> of Hackclub.</p>
+        </header>
+    </div>
+    <div class="content-section">
+        <section class="information">
+            <h2>About Me</h2>
+            <p>I'm a 13 year old teenager (born 2012, maybe this website won't be up to date when you're viewing it) and I really like tech,<br> especially software.</p>
+            <p>You may have already seen me in the <a href="https://hackclub.slack.com" target="_blank">Hack Club Slack</a>, I'm <a href="https://hackclub.slack.com/team/U091H6KD6TG">@Luckmuc</a> there</p>
+            <p>I participated in <a href="https://summer.hackclub.com" target="_blank">Summer of Making</a>, a really nice program and i got a Bambu Lab A1 mini there</p><img src="pictures/som_logo.png" alt="Summer of Making Logo">
+            <p>Fitting to that, i joined the printing legion of Hackclub to help out others without a 3D printer</p><img src="pictures/bambulab_nobg.png" alt="Bambu Lab A1 mini picture">
+            <p>You'll probably see me hangin around somewhere, yk if you see one of these pfps:</p>
+            <img src="pictures/blueprint-pfp.png" alt="PfP from Blueprint"><img src="pictures/normal-pfp.jpg" alt="My default PfP"><img src="pictures/whatsapp-pfp.jpeg" alt="My WhatsApp PfP">
+        </section>
+        <section class="projects">
+            <h2>My Projects</h2>
+            <p>I don't really have many public projects, mostly because I'm really bad at coding or i just do it private (I'm a vibecoder, but surprise: This website isnt vibecoded)</p>
+            <p>But one of the few public projects I have is <a href="https://github.com/Luckmuc/Blockpanel" target="_blank">Blockpanel</a>, a Minecraft Server Manager working with Purpur (vibecoded)</p><img src="pictures/blockpanel-logo.png" alt="Blockpanel Logo">
+            <p>This website is also public and open source btw, I'm also participating in Blueprint, so there may will be some Repos from that :)</p>
+        </section>
+        <section class="hobbies-and-games">
+            <h2>Hobbies & Games</h2>
+            <p>I'm into tech, software stuff and gaming so I spend a looot of time in front of my pc (we'll just don't talk about my screen time ok?)</p>
+            <p>Some of my favourite games are VALORANT and Minecraft, these are my two main games</p><img src="pictures/Valorant-nobg.png" alt="Valorant Logo"><img src="pictures/minecraft-logo.png" alt="Minecraft Logo">
+        </section>
+        <section class="contact">
+            <h2>Contact Me</h2>
+            <p>If you wanna contact me (i hope bc of good reasons), you can<a href="https://hackclub.slack.com/team/U091H6KD6TG" target="_blank"> just dm me on Slack</a></p>
+            <p>You can also find me on Discord but I'm barely active there (display name Luckmuc, username luckmuc)</p>
+            <p>Maybe write me an email but it will most likely end in my spam folder lol, it's valentin@dombret.de</p>
+        </section>
+        <section id="hackatime-stats">
+            <h2>Hackatime Stats</h2>
+            <img src="https://github-readme-stats.hackclub.dev/api/wakatime?username=5416&api_domain=hackatime.hackclub.com&&custom_title=Hackatime+Stats&layout=compact&cache_seconds=0&langs_count=8&theme=dark" alt="Hackatime WakaTime stats">
+        </section>
+        <section class="guestbook">
+            <h2>Guestbook</h2>
+            <p class="guestbook-description">Leave a message for future visitors or for me, will be stored on my server (pls dont spam)</p>
+            <form id="guestbook-form" class="guestbook-form">
+                <input name="name" placeholder="Name" aria-label="Name" required maxlength="60">
+                <textarea name="message" placeholder="Message" aria-label="Message" required maxlength="300"></textarea>
+                <button type="submit" class="btn btn-primary guestbook-submit">Save note</button>
+            </form>
+            <p class="guestbook-feedback" role="status" aria-live="polite"></p>
+            <ul id="guestbook-entries" class="guestbook-list"></ul>
+            <div class="guestbook-actions">
+                <a class="btn btn-primary" href="guestbook.html">Visit Guestbook</a>
+            </div>
+        </section>
+        <section class="stats-or-whatever">
+            <h2>The most useless part of this Website</h2>
+            <p>My GitHub Account: <a href="https://github.com/Luckmuc" target="_blank">@Luckmuc</a></p>
+            <p>This website is hosted on a Debian Hetzner Server, there also run sum mc servers sometimes</p>
+        </section>
+    </div>
+    <footer>If your're &lt;18 and like coding, join hackclub already!</footer>
+    <script src="script.js"></script>
+    <script>
+        window.__GUESTBOOK_API_BASE__ = window.__GUESTBOOK_API_BASE__ || (document.querySelector('meta[name="guestbook-api-base"]')?.content?.trim() || `${window.location.origin}/api`);
+    </script>
+    <script src="guestbook-config.js"></script>
+    <script>
+        (function() {
+            document.querySelectorAll('.fade-in').forEach((el) => el.classList.add('visible'));
+            const rawBase = window.__GUESTBOOK_API_BASE__ ?? '/api';
+            const API_BASE = rawBase.replace(/\/$/, '');
+            const API_URL = `${API_BASE}/guestbook`;
+            const LIMIT = 3;
+            const form = document.querySelector('.guestbook-form');
+            const entriesList = document.getElementById('guestbook-entries');
+            const feedback = document.querySelector('.guestbook-feedback');
+            const submitButton = form?.querySelector('button[type="submit"]');
+
+            if (!form || !entriesList || !feedback || !submitButton) {
+                return;
+            }
+
+            let feedbackTimerId;
+            const setFeedback = (text, isError = false) => {
+                feedback.textContent = text;
+                feedback.classList.toggle('guestbook-feedback--error', isError);
+                feedback.classList.add('visible');
+                clearTimeout(feedbackTimerId);
+                feedbackTimerId = setTimeout(() => {
+                    feedback.classList.remove('visible');
+                }, 4000);
+            };
+
+            const createListItem = (entry) => {
+                const li = document.createElement('li');
+                li.className = 'guestbook-entry';
+
+                const meta = document.createElement('div');
+                meta.className = 'guestbook-entry__meta';
+
+                const author = document.createElement('span');
+                author.className = 'guestbook-entry__author';
+                author.textContent = entry.name;
+
+                const time = document.createElement('time');
+                time.className = 'guestbook-entry__time';
+                time.dateTime = entry.timestamp;
+                time.textContent = new Date(entry.timestamp).toLocaleString();
+
+                meta.append(author, time);
+
+                const message = document.createElement('p');
+                message.className = 'guestbook-entry__message';
+                message.textContent = entry.message;
+
+                li.append(meta, message);
+                return li;
+            };
+
+            const renderEntries = async () => {
+                entriesList.innerHTML = '';
+                try {
+                    const response = await fetch(API_URL);
+                    if (!response.ok) throw new Error(`GET ${API_URL} failed with ${response.status}`);
+                    const entries = await response.json();
+
+                    if (!entries.length) {
+                        const empty = document.createElement('li');
+                        empty.className = 'guestbook-empty';
+                        empty.textContent = 'No entries yet. Be the first to say hi!';
+                        entriesList.appendChild(empty);
+                        return;
+                    }
+
+                    entries.slice(0, LIMIT).forEach((entry) => {
+                        entriesList.appendChild(createListItem(entry));
+                    });
+
+                    if (entries.length > LIMIT) {
+                        const more = document.createElement('li');
+                        more.className = 'guestbook-more';
+                        more.textContent = `View ${entries.length - LIMIT} more on the full guestbook.`;
+                        entriesList.appendChild(more);
+                    }
+                } catch (error) {
+                    console.error('Failed to load guestbook entries', error);
+                    const errorItem = document.createElement('li');
+                    errorItem.className = 'guestbook-empty';
+                    errorItem.textContent = 'Could not load guestbook. Try again later.';
+                    entriesList.appendChild(errorItem);
+                }
+            };
+
+            renderEntries();
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const data = new FormData(form);
+                const name = (data.get('name') || '').toString().trim();
+                const message = (data.get('message') || '').toString().trim();
+
+                if (!name || !message) {
+                    setFeedback('Please fill out both fields.', true);
+                    return;
+                }
+
+                submitButton.disabled = true;
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, message })
+                    });
+
+                    if (!response.ok) throw new Error(`POST ${API_URL} failed with ${response.status}`);
+
+                    form.reset();
+                    setFeedback('Thanks! Your note was added.');
+                    await renderEntries();
+                } catch (error) {
+                    console.error('Failed to save guestbook entry', error);
+                    setFeedback('Failed to save. Please retry.', true);
+                } finally {
+                    submitButton.disabled = false;
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
